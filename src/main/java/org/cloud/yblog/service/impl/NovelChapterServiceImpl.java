@@ -97,7 +97,8 @@ public class NovelChapterServiceImpl extends ServiceImpl<NovelChapterMapper, Nov
         BufferedReader br = null;
         BufferedWriter bw = null;
         List<NovelChapter> novelChapters = new ArrayList<>();
-        Pattern pp = Pattern.compile("第[0-9]+章[\\s]*[\\S\\u4e00-\\u9fa5]+");
+        Pattern pp = Pattern.compile("(第[0-9]+章)[\\s]*([\\S\\u4e00-\\u9fa5]+)");
+        Pattern pp2 = Pattern.compile("[^\\r\\n]+[\\r\\n]+[\\S]*");
         boolean success = false;
         try {
             br = new BufferedReader(new FileReader(srcFilePath));
@@ -113,6 +114,12 @@ public class NovelChapterServiceImpl extends ServiceImpl<NovelChapterMapper, Nov
             while (m.find()) {
                 long wid = IdWorker.getSingletonId();
                 String title = m.group(0);
+                Matcher m2 = pp2.matcher(title);
+                if (m2.find()) {
+                	title = m.group(1) + " 匿名";
+                } else {
+                	title = m.group(1) + " " + m.group(2);
+                }
                 // 相对路径
                 String relativePath = "novel/" + novelId;
                 // uploadPath根目录
