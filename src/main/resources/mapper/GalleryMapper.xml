@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2014-2017 d05660@163.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cloud.yblog.mapper.GalleryMapper">
+  <resultMap type="Gallery" id="galleryResultMap">
+    <result property="id" column="gallery_id" />
+    <result property="name" column="gallery_name" />
+    <result property="size" column="gallery_size" />
+    <result property="path" column="gallery_path" />
+    <result property="thumb" column="gallery_thumb" />
+    <association property="album" column="album" javaType="Album" resultMap="albumResult"/>
+  </resultMap>
+
+  <resultMap id="albumResult" type="Album">
+    <id property="id" column="album_id"/>
+    <result property="title" column="album_title" />
+    <result property="description" column="album_description" />
+    <result property="coverpic" column="album_coverpic" />
+  </resultMap>
+
+  <sql id="selectGalleryColumns">
+    G.id AS gallery_id,
+    G.name AS gallery_name,
+    G.size AS gallery_size,
+    G.path AS gallery_path,
+    G.thumb AS gallery_thumb,
+    A.id AS album_id,
+    A.title AS album_title,
+    A.description AS album_description,
+    A.coverpic AS album_coverpic
+  </sql>
+
+  <select id="selectCount" resultType="long">
+    SELECT
+    COUNT(*)
+    FROM
+    `gallery`
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="galleryResultMap">
+    SELECT
+    <include refid="selectGalleryColumns"/>
+    FROM `gallery` G
+    LEFT OUTER JOIN `album` A ON G.album=A.id
+    WHERE
+    G.id=#{id}
+  </select>
+
+  <select id="selectAll" resultMap="galleryResultMap">
+    SELECT
+    <include refid="selectGalleryColumns"/>
+    FROM `gallery` G
+    LEFT OUTER JOIN `album` A ON G.album=A.id
+    ORDER BY G.id ASC
+  </select>
+
+  <select id="selectGalleriesByAlbum" resultMap="galleryResultMap">
+    SELECT
+    <include refid="selectGalleryColumns"/>
+    FROM `gallery` G
+    LEFT OUTER JOIN `album` A ON G.album=A.id
+    WHERE
+    A.id=#{id}
+  </select>
+
+  <select id="selectAllOrderBy" resultMap="galleryResultMap">
+    SELECT
+    <include refid="selectGalleryColumns"/>
+    FROM `gallery` G
+    LEFT OUTER JOIN `album` A ON G.album=A.id
+    ORDER BY
+    <if test="column != null and column != ''">
+        G.${column}
+      <if test="orderDir != null and orderDir != ''">
+        ${orderDir}
+      </if>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="long">
+    DELETE FROM
+    `gallery`
+    WHERE id=#{id}
+  </delete>
+
+  <insert id="insert" parameterType="Gallery" >
+    INSERT INTO
+    `gallery`(name,size,path,thumb,album)
+    VALUES(#{name},#{size},#{path},#{thumb},#{album.id})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="Gallery" >
+    UPDATE
+    `gallery`
+    SET name=#{name},size=#{size},path=#{path},thumb=#{thumb},album=#{album.id}
+    WHERE id=#{id}
+  </update>
+</mapper>

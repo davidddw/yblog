@@ -1,0 +1,11 @@
+[Unit]
+Description=Pestle blog
+After=network.target
+
+[Service]
+ExecStart=/usr/local/meblog/bin/startBlog.sh
+Type=simple
+User=root
+
+[Install]
+WantedBy=multi-user.target

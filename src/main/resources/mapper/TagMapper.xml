@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2014-2017 d05660@163.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cloud.yblog.mapper.TagMapper">
+  <resultMap type="Tag" id="tagResultMap">
+    <result property="id" column="tag_id" />
+    <result property="name" column="tag_name" />
+    <result property="slug" column="tag_slug" />
+    <result property="intro" column="tag_intro" />
+    <result property="count" column="tag_count" />
+  </resultMap>
+
+  <sql id="selectTagColumns">
+    id AS tag_id,
+    name AS tag_name,
+    slug AS tag_slug,
+    intro AS tag_intro,
+    count AS tag_count
+  </sql>
+
+  <select id="selectAll" resultMap="tagResultMap">
+    SELECT
+    <include refid="selectTagColumns"/>
+    FROM `tag`
+  </select>
+
+  <select id="selectAllOrderBy" resultMap="tagResultMap">
+    SELECT
+    <include refid="selectTagColumns"/>
+    FROM
+    `tag` AS T
+    ORDER BY
+    <if test="column != null and column != ''">
+      T.${column}
+      <if test="orderDir != null and orderDir != ''">
+        ${orderDir}
+      </if>
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="tagResultMap">
+    SELECT
+    <include refid="selectTagColumns"/>
+    FROM `tag`
+    WHERE id=#{id}
+  </select>
+
+  <select id="selectByName" resultMap="tagResultMap">
+    SELECT
+    <include refid="selectTagColumns"/>
+    FROM `tag` T
+    WHERE
+    T.name=#{name}
+  </select>
+
+  <select id="selectCount" resultType="long">
+    SELECT
+    COUNT(*)
+    FROM
+    `tag`
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="long">
+    DELETE FROM
+    `tag`
+    WHERE id=#{id}
+  </delete>
+
+  <insert id="insertSelective" parameterType="Tag" >
+    INSERT INTO
+    `tag`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="password != null">
+        #{password},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="insert" parameterType="Tag" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO
+    `tag`(name,slug,intro,count)
+    VALUES(#{name},#{slug},#{intro},#{count})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="Tag">
+    UPDATE
+    `tag`
+    <set>
+      <if test="name != null">
+        username = #{name},
+      </if>
+      <if test="intro != null">
+        intro = #{intro},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="Tag" >
+    UPDATE
+    `tag`
+    SET
+    name = #{name},
+    slug = #{slug},
+    intro = #{intro}
+    count = #{count}
+    WHERE id = #{id}
+  </update>
+
+  <update id="updateCountByPrimaryKey" parameterType="Tag">
+    UPDATE `tag`
+    SET
+    count = #{count}
+    where id = #{id}
+  </update>
+</mapper>

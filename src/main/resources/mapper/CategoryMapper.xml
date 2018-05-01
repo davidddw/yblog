@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2014-2017 d05660@163.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cloud.yblog.mapper.CategoryMapper">
+  <resultMap type="Category" id="categoryResultMap">
+    <result property="id" column="cate_id" />
+    <result property="name" column="cate_name" />
+    <result property="term" column="cate_term" />
+    <result property="intro" column="cate_intro" />
+  </resultMap>
+
+  <sql id="selectCategoryColumns">
+    C.id AS cate_id,
+    C.name AS cate_name,
+    C.term AS cate_term,
+    C.intro AS cate_intro
+  </sql>
+
+  <select id="selectCount" resultType="long">
+    SELECT
+    COUNT(*)
+    FROM
+    `category`
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="categoryResultMap">
+    SELECT
+    <include refid="selectCategoryColumns"/>
+    FROM `category` C
+    WHERE
+    C.id=#{id}
+  </select>
+
+  <select id="selectByName" resultMap="categoryResultMap">
+    SELECT
+    <include refid="selectCategoryColumns"/>
+    FROM `category` C
+    WHERE
+    C.name=#{name}
+  </select>
+
+  <select id="selectAll" resultMap="categoryResultMap">
+    SELECT
+    <include refid="selectCategoryColumns"/>
+    FROM
+    `category` AS C
+    ORDER BY C.id ASC
+  </select>
+
+  <select id="selectAllOrderBy" resultMap="categoryResultMap">
+    SELECT
+    <include refid="selectCategoryColumns"/>
+    FROM
+    `category` AS C
+    ORDER BY
+    <if test="column != null and column != ''">
+        C.${column}
+      <if test="orderDir != null and orderDir != ''">
+        ${orderDir}
+      </if>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="long">
+    DELETE FROM
+    `category`
+    WHERE id=#{id}
+  </delete>
+
+  <insert id="insert" parameterType="Category" >
+    INSERT INTO
+    `category`(name,term,intro)
+    VALUES(#{name},#{term},#{intro})
+  </insert>
+
+  <insert id="insertSelective" parameterType="Category" >
+    INSERT INTO
+    `category`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="term != null">
+        term,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="term != null">
+        #{term},
+      </if>
+      <if test="intro != null">
+        #{intro},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="Category" >
+    UPDATE
+    `category`
+    SET name=#{name},term=#{term},intro=#{intro}
+    WHERE id=#{id}
+  </update>
+</mapper>

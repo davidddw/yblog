@@ -1,0 +1,12 @@
+/target/
+dependency-reduced-pom.xml
+# Created by .ignore support plugin (hsz.mobi)
+*/target/**
+/target/
+*.iml
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/captures
+*.log
+/src/main/webapp/uploads/*

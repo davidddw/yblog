@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+  <!--<settings>-->
+    <!--&lt;!&ndash; 打印查询语句 &ndash;&gt;-->
+    <!--<setting name="logImpl" value="STDOUT_LOGGING" />-->
+  <!--</settings>-->
+
+  <typeAliases>
+    <typeAlias type="org.cloud.yblog.model.User" alias="User" />
+    <typeAlias type="org.cloud.yblog.model.Role" alias="Role" />
+    <typeAlias type="org.cloud.yblog.model.UserRoleLink" alias="UserRoleLink" />
+    <typeAlias type="org.cloud.yblog.model.Category" alias="Category" />
+    <typeAlias type="org.cloud.yblog.model.Article" alias="Article" />
+    <typeAlias type="org.cloud.yblog.model.Comment" alias="Comment" />
+    <typeAlias type="org.cloud.yblog.model.Tag" alias="Tag" />
+    <typeAlias type="org.cloud.yblog.model.Page" alias="Page" />
+    <typeAlias type="org.cloud.yblog.model.ArticleTagLink" alias="ArticleTagLink" />
+    <typeAlias type="org.cloud.yblog.model.EntityCount" alias="EntityCount" />
+    <typeAlias type="org.cloud.yblog.model.Album" alias="Album" />
+    <typeAlias type="org.cloud.yblog.model.Gallery" alias="Gallery" />
+    <typeAlias type="org.cloud.yblog.model.NovelInfo" alias="NovelInfo" />
+    <typeAlias type="org.cloud.yblog.model.NovelChapter" alias="NovelChapter" />
+  </typeAliases>
+
+</configuration>

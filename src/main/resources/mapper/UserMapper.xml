@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2014-2017 d05660@163.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cloud.yblog.mapper.UserMapper">
+  <resultMap type="User" id="userResultMap">
+    <result property="id" column="user_id" />
+    <result property="name" column="user_name" />
+    <result property="password" column="user_password" />
+    <result property="phone" column="user_phone" />
+    <result property="email" column="user_email" />
+    <result property="level" column="user_level" />
+    <result property="enabled" column="user_enabled" />
+    <result property="intro" column="user_intro" />
+  </resultMap>
+
+  <resultMap type="User" id="userRoleResultMap" extends="userResultMap">
+    <collection property="roles" ofType="Role">
+      <id property="id" column="role_id" />
+      <result property="name" column="role_name" />
+    </collection>
+  </resultMap>
+
+  <sql id="selectUserColumns">
+    U.id AS user_id,
+    U.name AS user_name,
+    U.password as user_password,
+    U.phone as user_phone,
+    U.email as user_email,
+    U.level as user_level,
+    U.enabled AS user_enabled,
+    U.intro AS user_intro
+  </sql>
+
+  <sql id="selectUserRoleColumns">
+    U.id AS user_id,
+    U.name AS user_name,
+    U.password as user_password,
+    U.phone as user_phone,
+    U.email as user_email,
+    U.level as user_level,
+    U.enabled AS user_enabled,
+    U.intro AS user_intro,
+    R.id AS role_id,
+    R.name AS role_name
+  </sql>
+
+  <select id="selectAll" resultMap="userResultMap">
+    SELECT
+    <include refid="selectUserColumns"/>
+    FROM `user` U
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="userResultMap">
+    SELECT
+    <include refid="selectUserColumns"/>
+    FROM `user` U
+    WHERE U.id=#{id}
+  </select>
+
+  <select id="selectRoleByUsername" resultMap="userRoleResultMap">
+    SELECT
+    <include refid="selectUserRoleColumns"/>
+    FROM `user` U
+    LEFT OUTER JOIN `user_role` UR ON UR.user_id = U.id
+    LEFT OUTER JOIN `role` R ON R.id = UR.role_id
+    WHERE U.name=#{name}
+  </select>
+
+  <select id="selectCount" resultType="long">
+    SELECT
+    COUNT(*)
+    FROM
+    `user`
+  </select>
+
+  <select id="selectAllOrderBy" resultMap="userRoleResultMap">
+    SELECT
+    <include refid="selectUserRoleColumns"/>
+    FROM `user` U
+    LEFT OUTER JOIN `user_role` UR ON UR.user_id = U.id
+    LEFT OUTER JOIN `role` R ON R.id = UR.role_id
+    ORDER BY
+    <if test="column != null and column != ''">
+      U.${column}
+      <if test="orderDir != null and orderDir != ''">
+        ${orderDir}
+      </if>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="long">
+    DELETE FROM
+    `user`
+    WHERE id=#{id}
+  </delete>
+
+  <delete id="deleteRelationshipFromUser" parameterType="long">
+    DELETE FROM
+    `user_role`
+    WHERE user_id=#{id}
+  </delete>
+
+  <insert id="insertSelective" parameterType="User" >
+    INSERT INTO
+    `user`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="password != null">
+        #{password},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="insert" parameterType="User" >
+    INSERT INTO
+    `user`(name,password,phone,email,level,enabled,intro)
+    VALUES(#{name},#{password},#{phone},#{email},#{level},#{enabled},#{intro})
+  </insert>
+
+  <insert id="insertRelativity" parameterType="UserRoleLink">
+    INSERT INTO
+     `user_role` (user_id,role_id)
+    VALUES(#{user.id},#{group.id})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="User">
+    UPDATE
+    `user`
+    <set>
+      <if test="name != null">
+        username = #{name},
+      </if>
+      <if test="password != null">
+        password = #{password},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="User" >
+    UPDATE
+    `user`
+    SET
+    name = #{name},
+    password = #{password},
+    phone = #{phone},
+    email = #{email},
+    level = #{level},
+    enabled = #{enabled},
+    intro = #{intro}
+    WHERE id = #{id}
+  </update>
+</mapper>

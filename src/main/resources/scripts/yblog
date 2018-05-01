@@ -1,0 +1,96 @@
+#!/bin/sh
+# resourceJOB.sh
+# chkconfig: - 80 20
+# description: this script starts and stops the resourceJOB daemon
+# processname: resourceJOB
+# chmod 775 *
+APP="/usr/local/yblog/lib/yblog-1.0.0.jar"
+PROG=`basename $APP`
+PROGSHORT=${PROG%%-*}
+PS="/bin/ps"
+JAVA="/usr/bin/java"
+JAVA_OPTS="-Djava.security.egd=file:/dev/urandom -Dfile.encoding=UTF-8 -Xmx256m -Xms128m -server -XX:PermSize=64M -XX:MaxPermSize=128M"
+psid=0
+
+checkpid() {
+    javaps=`$PS aux | grep $PROG | grep -v grep`
+    if [ -n "$javaps" ]; then
+        psid=`echo $javaps | awk '{print $2}'`
+    else
+        psid=0
+    fi
+}
+
+start()
+{
+    checkpid
+    if [ $psid -ne 0 ]; then
+        echo -n "$PROGSHORT already started!"
+        return 1
+    else
+        echo -n "Starting $PROGSHORT: "
+        nohup $JAVA $JAVA_OPTS -jar "$APP" > /dev/null 2>&1 &
+        checkpid
+        if [ $psid -ne 0 ]; then
+            echo -e '\033[60G[  \033[0;32mOK\033[0m  ]'
+        else
+            echo -e '\033[60G[\033[0;31mFAILED\033[0m]'
+        fi
+    fi
+    return 0
+}
+
+stop()
+{
+    checkpid
+    if [ $psid -ne 0 ]; then
+        echo -n "Stopping $PROGSHORT: "
+        kill -9 $psid
+        if [ $? -eq 0 ]; then
+            echo -e '\033[60G[  \033[0;32mOK\033[0m  ]'
+        else
+            echo -e '\033[60G[\033[0;31mFAILED\033[0m]'
+        fi
+        checkpid
+        if [ $psid -ne 0 ]; then
+            stop
+        fi
+    else
+        echo "$PROGSHORT is not running "
+    fi
+}
+
+restart()
+{
+    stop
+    sleep 1
+    start
+}
+
+status()
+{
+    checkpid
+    if [ $psid -ne 0 ]; then
+        echo "$PROGSHORT (pid $psid) is running... "
+    else
+        echo "$PROGSHORT is stopped "
+    fi
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    status)
+        status
+        ;;
+    *)
+        echo $"Usage: service $PROGSHORT {start|stop|status|restart}"
+        exit 2
+esac

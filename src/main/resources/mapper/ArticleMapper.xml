@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2014-2017 d05660@163.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.cloud.yblog.mapper.ArticleMapper">
+  <resultMap type="Article" id="articleResultMap">
+    <id property="id" column="art_id"/>
+    <result property="wid" column="art_wid"/>
+    <result property="title" column="art_title"/>
+    <result property="author" column="art_author"/>
+    <result property="excerpt" column="art_excerpt"/>
+    <result property="imageThumb" column="art_image_thumb"/>
+    <result property="content" column="art_content"/>
+    <result property="tagStrings" column="art_tag_string"/>
+    <result property="articleStatus" column="art_article_status"/>
+    <result property="commentStatus" column="art_comment_status"/>
+    <result property="createdDate" column="art_created_date" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+    <result property="modifiedDate" column="art_modified_date" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+    <result property="commentCount" column="art_comment_count"/>
+    <result property="likeCount" column="art_like_count"/>
+    <result property="readCount" column="art_read_count"/>
+    <result property="isTop" column="art_istop"/>
+    <result property="recommendation" column="art_recommendation"/>
+    <result property="original" column="art_original"/>
+    <result property="originalUrl" column="art_original_url"/>
+    <association property="user" column="art_user" javaType="User" resultMap="userResult"/>
+    <association property="category" column="art_category" javaType="Category" resultMap="categoryResult"/>
+    <collection property="comments" ofType="Comment" resultMap="commentResultMap"/>
+  </resultMap>
+
+  <resultMap id="userResult" type="User">
+    <id property="id" column="user_id"/>
+    <result property="name" column="user_name"/>
+  </resultMap>
+
+  <resultMap id="categoryResult" type="Category">
+    <id property="id" column="cate_id"/>
+    <result property="name" column="cate_name"/>
+    <result property="term" column="cate_term"/>
+  </resultMap>
+
+  <resultMap id="commentResultMap" type="Comment">
+    <id property="id" column="comm_id"/>
+    <result property="author" column="comm_author"/>
+    <result property="content" column="comm_content"/>
+  </resultMap>
+
+  <sql id="selectArticleColumns">
+    A.id AS art_id,
+    A.wid AS art_wid,
+    A.title AS art_title,
+    A.author as art_author,
+    A.excerpt AS art_excerpt,
+    A.image_thumb AS art_image_thumb,
+    A.content AS art_content,
+    A.tag_string AS art_tag_string,
+    A.article_status AS art_article_status,
+    A.comment_status AS art_comment_status,
+    A.created_date AS art_created_date,
+    A.modified_date AS art_modified_date,
+    A.comment_count AS art_comment_count,
+    A.like_count AS art_like_count,
+    A.read_count AS art_read_count,
+    A.istop AS art_istop,
+    A.recommendation AS art_recommendation,
+    A.original AS art_original,
+    A.original_url AS art_original_url,
+    A.user AS art_user,
+    A.category AS art_category,
+    U.id AS user_id,
+    U.name AS user_name,
+    C.id AS cate_id,
+    C.name AS cate_name,
+    C.term AS cate_term
+  </sql>
+
+  <!-- mapper implements -->
+  <select id="selectCount" resultType="long">
+    SELECT
+    COUNT(*)
+    FROM `article`
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="articleResultMap">
+    SELECT
+    <include refid="selectArticleColumns"/>
+    FROM `article` A
+    LEFT OUTER JOIN `category` C ON A.category=C.id
+    LEFT OUTER JOIN `user` U ON A.user=U.id
+    WHERE A.id=#{id}
+    ORDER BY
+      A.created_date DESC
+  </select>
+
+  <select id="selectByWid" resultMap="articleResultMap">
+    SELECT
+    <include refid="selectArticleColumns"/>
+    FROM `article` A
+    LEFT OUTER JOIN `category` C ON A.category=C.id
+    LEFT OUTER JOIN `user` U ON A.user=U.id
+    WHERE A.wid=#{wid}
+    ORDER BY
+    A.created_date DESC
+  </select>
+
+  <select id="selectByTitleOrContent" resultMap="articleResultMap">
+    SELECT
+    <include refid="selectArticleColumns"/>
+    FROM `article` A
+    LEFT OUTER JOIN `category` C ON A.category=C.id
+    LEFT OUTER JOIN `user` U ON A.user=U.id
+    WHERE A.title like BINARY concat(concat('%',#{value}),'%') OR A.content like BINARY CONCAT('%',#{value},'%')
+    ORDER BY
+    A.created_date DESC
+  </select>
+
+  <select id="selectAll" resultMap="articleResultMap">
+    SELECT
+    <include refid="selectArticleColumns"/>
+    FROM `article` A
+    LEFT OUTER JOIN `category` C ON A.category=C.id
+    LEFT OUTER JOIN `user` U ON A.user=U.id
+    WHERE A.article_status=1
+    ORDER BY A.istop DESC, A.created_date DESC
+  </select>
+
+  <select id="selectArticlesByTag" resultMap="articleResultMap">
+    SELECT DISTINCT
+    <include refid="selectArticleColumns"/>
+    FROM `article` A
+    LEFT OUTER JOIN `category` C ON A.category=C.id
+    LEFT OUTER JOIN `user` U ON A.user=U.id
+    LEFT OUTER JOIN `article_tag` AT ON AT.art_id=A.id
+    LEFT OUTER JOIN `tag` T ON AT.tag_id=T.id
+    WHERE
+    T.name = #{tagValue} AND A.article_status=1
+  </select>
+
+  <select id="selectArticlesByUser" resultMap="articleResultMap">
+    SELECT
+    <include refid="selectArticleColumns"/>
+    FROM `article` A
+    LEFT OUTER JOIN `category` C ON A.category=C.id
+    LEFT OUTER JOIN `user` U ON A.user=U.id
+    WHERE U.id=#{id} AND A.article_status=1
+  </select>
+
+  <select id="selectArticlesByCategory" resultMap="articleResultMap">
+    SELECT
+    <include refid="selectArticleColumns"/>
+    FROM `article` A
+    LEFT OUTER JOIN `category` C ON A.category=C.id
+    LEFT OUTER JOIN `user` U ON A.user=U.id
+    WHERE C.name=#{enName} AND A.article_status=1
+  </select>
+
+  <select id="selectArticleCountByCategoryId" resultType="long">
+    SELECT
+    COUNT(*)
+    FROM `article`
+    WHERE category=#{categoryId}
+  </select>
+
+  <select id="selectAllOrderBy" resultMap="articleResultMap">
+    SELECT
+    <include refid="selectArticleColumns"/>
+    FROM `article` A
+    LEFT OUTER JOIN `category` C ON A.category=C.id
+    LEFT OUTER JOIN `user` U ON A.user=U.id
+    ORDER BY
+    <if test="column != null and column != ''">
+      <choose>
+        <when test="column =='createdDate' ">
+          A.created_date
+        </when >
+        <when test="column =='articleStatus' ">
+          A.article_status
+        </when >
+        <when test="column =='category' ">
+          A.category
+        </when >
+        <otherwise>
+          ${column}
+        </otherwise>
+      </choose>
+      <if test="orderDir != null and orderDir != ''">
+        ${orderDir}
+      </if>
+    </if>
+  </select>
+
+  <select id="selectArticlesByReadCount" resultMap="articleResultMap">
+    SELECT
+    <include refid="selectArticleColumns"/>
+    FROM `article` A
+    LEFT OUTER JOIN `category` C ON A.category=C.id
+    LEFT OUTER JOIN `user` U ON A.user=U.id
+    ORDER BY A.read_count DESC, A.created_date DESC
+  </select>
+
+  <select id="selectPrevArticles" resultMap="articleResultMap">
+    SELECT
+    <include refid="selectArticleColumns"/>
+    FROM `article` A
+    LEFT OUTER JOIN `category` C ON A.category=C.id
+    LEFT OUTER JOIN `user` U ON A.user=U.id
+    WHERE A.created_date &lt; #{now}
+    ORDER BY A.created_date DESC, A.id DESC
+  </select>
+
+  <select id="selectNextArticles" resultMap="articleResultMap">
+    SELECT
+    <include refid="selectArticleColumns"/>
+    FROM `article` A
+    LEFT OUTER JOIN `category` C ON A.category=C.id
+    LEFT OUTER JOIN `user` U ON A.user=U.id
+    WHERE A.created_date &gt; #{now}
+    ORDER BY A.created_date ASC, A.id ASC
+  </select>
+
+  <select id="selectRelativeArticlesByTag" resultMap="articleResultMap">
+    SELECT DISTINCT
+    <include refid="selectArticleColumns"/>
+    FROM `article` A
+    LEFT OUTER JOIN `category` C ON A.category=C.id
+    LEFT OUTER JOIN `user` U ON A.user=U.id
+    INNER JOIN `tag` T
+    WHERE A.id != #{myid}
+    AND T.id in
+    (SELECT T.id FROM `article_tag` T WHERE T.id = #{myid})
+  </select>
+
+  <select id="selectRelativeArticlesByCategory" resultMap="articleResultMap">
+    SELECT DISTINCT
+    <include refid="selectArticleColumns"/>
+    FROM `article` A
+    LEFT OUTER JOIN `category` C ON A.category=C.id
+    LEFT OUTER JOIN `user` U ON A.user=U.id
+    WHERE A.id != #{myid} AND C.id=(SELECT A.category FROM `article` A WHERE A.id = #{myid}) LIMIT 3
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="long">
+    DELETE FROM
+    `article`
+    WHERE id=#{id}
+  </delete>
+
+  <insert id="insert" parameterType="Article" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO
+    `article`
+    (wid,title, author, excerpt, image_thumb,
+      content, tag_string, article_status ,created_date, modified_date,
+      comment_count, like_count, read_count, istop, recommendation,
+      original, original_url, user, category)
+    VALUES(
+      #{wid}, #{title}, #{author}, #{excerpt}, #{imageThumb},
+      #{content}, #{tagStrings}, #{articleStatus}, #{createdDate}, #{modifiedDate},
+      #{commentCount}, #{likeCount}, #{readCount}, #{isTop}, #{recommendation},
+      #{original}, #{originalUrl}, #{user.id}, #{category.id})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="Article">
+    UPDATE
+    `article`
+    <set>
+      <if test="wid != null">
+        wid = #{wid},
+      </if>
+        title=#{title},
+        author=#{author},
+        excerpt=#{excerpt},
+        image_thumb=#{imageThumb},
+        content=#{content},
+        tag_string=#{tagStrings},
+        article_status=#{articleStatus},
+      <if test="createdDate != null">
+        created_date = #{createdDate},
+      </if>
+        modified_date=#{modifiedDate},
+        comment_count=#{commentCount},
+        like_count=#{likeCount},
+        read_count=#{readCount},
+        istop=#{isTop},
+        recommendation=#{recommendation},
+        original=#{original},
+        original_url=#{originalUrl},
+        user=#{user.id},
+        category=#{category.id}
+    </set>
+    WHERE id=#{id}
+  </update>
+
+  <update id="updateReadCountById" parameterType="Article">
+    UPDATE `article`
+    SET
+      read_count = #{readCount}
+    where wid = #{wid}
+  </update>
+
+  <update id="updateLiveCountById" parameterType="Article">
+    UPDATE `article`
+    SET
+    like_count = #{likeCount}
+    where wid = #{wid}
+  </update>
+
+</mapper>

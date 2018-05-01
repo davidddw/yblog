@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2014-2017 d05660@163.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cloud.yblog.mapper.NovelChapterMapper">
+  <resultMap type="NovelChapter" id="novelChapterResultMap">
+    <result property="id" column="novel_id" />
+    <result property="wid" column="novel_wid" />
+    <result property="title" column="novel_title" />
+    <result property="location" column="novel_location" />
+    <association property="novel" column="novel_novel" javaType="NovelInfo" resultMap="novelInfoResult"/>
+  </resultMap>
+
+  <resultMap id="novelInfoResult" type="NovelInfo">
+    <id property="id" column="novelInfo_id"/>
+    <result property="name" column="novelInfo_name" />
+    <result property="author" column="novelInfo_author" />
+  </resultMap>
+
+  <sql id="selectNovelChapterColumns">
+    NC.id AS novel_id,
+    NC.wid AS novel_wid,
+    NC.title AS novel_title,
+    NC.location AS novel_location,
+    NC.novel AS novel_novel,
+    N.id AS novelinfo_id,
+    N.name AS novelinfo_name,
+    N.author AS novelinfo_author
+  </sql>
+
+  <select id="selectCount" resultType="long">
+    SELECT
+    COUNT(*)
+    FROM
+    `novelchapter`
+  </select>
+
+  <select id="selectCountByNovelId" resultType="long">
+    SELECT
+    COUNT(*)
+    FROM
+    `novelchapter` NC
+    WHERE
+    NC.novel=#{id}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="novelChapterResultMap">
+    SELECT
+    <include refid="selectNovelChapterColumns"/>
+    FROM `novelchapter` NC
+    LEFT OUTER JOIN `novelinfo` N ON NC.novel=N.id
+    WHERE
+    NC.id=#{id}
+  </select>
+
+  <select id="selectChaptersByNovelId" resultMap="novelChapterResultMap">
+    SELECT
+    <include refid="selectNovelChapterColumns"/>
+    FROM `novelchapter` NC
+    LEFT OUTER JOIN `novelinfo` N ON NC.novel=N.id
+    WHERE
+    NC.novel=#{id}
+  </select>
+
+  <select id="selectPrevNovels" resultMap="novelChapterResultMap">
+    SELECT
+    <include refid="selectNovelChapterColumns"/>
+    FROM `novelchapter` NC
+    LEFT OUTER JOIN `novelinfo` N ON NC.novel=N.id
+    WHERE
+    NC.novel=#{novelid} AND NC.wid &lt; #{chapterid}
+    ORDER BY NC.wid DESC
+  </select>
+
+  <select id="selectNextNovels" resultMap="novelChapterResultMap">
+    SELECT
+    <include refid="selectNovelChapterColumns"/>
+    FROM `novelchapter` NC
+    LEFT OUTER JOIN `novelinfo` N ON NC.novel=N.id
+    WHERE
+    NC.novel=#{novelid} AND NC.wid &gt; #{chapterid}
+    ORDER BY NC.wid ASC
+  </select>
+
+  <select id="selectDetailsByChaptersAndNovelId" resultMap="novelChapterResultMap">
+    SELECT
+    <include refid="selectNovelChapterColumns"/>
+    FROM `novelchapter` NC
+    LEFT OUTER JOIN `novelinfo` N ON NC.novel=N.id
+    WHERE
+    NC.novel=#{novelid} and NC.wid=#{chapterid}
+  </select>
+
+  <select id="selectAll" resultMap="novelChapterResultMap">
+    SELECT
+    <include refid="selectNovelChapterColumns"/>
+    FROM `novelchapter` NC
+    LEFT OUTER JOIN `novelinfo` N ON NC.novel=N.id
+    ORDER BY NC.id ASC
+  </select>
+
+  <select id="selectAllByNovelIdOrderBy" resultMap="novelChapterResultMap">
+    SELECT
+    <include refid="selectNovelChapterColumns"/>
+    FROM `novelchapter` NC
+    LEFT OUTER JOIN `novelinfo` N ON NC.novel=N.id
+    WHERE
+      NC.novel=#{id}
+    ORDER BY
+    <if test="column != null and column != ''">
+      NC.${column}
+      <if test="orderDir != null and orderDir != ''">
+        ${orderDir}
+      </if>
+    </if>
+  </select>
+
+  <select id="selectCountByCondition" resultType="long">
+    SELECT
+    COUNT(*)
+    FROM `novelchapter` NC
+    LEFT OUTER JOIN `novelinfo` N ON NC.novel=N.id
+    WHERE
+      N.name like BINARY concat(concat('%',#{condition}),'%')
+  </select>
+
+  <select id="selectAllOrderBy" resultMap="novelChapterResultMap">
+    SELECT
+    <include refid="selectNovelChapterColumns"/>
+    FROM `novelchapter` NC
+    LEFT OUTER JOIN `novelinfo` N ON NC.novel=N.id
+    WHERE
+      N.name like BINARY concat(concat('%',#{condition}),'%')
+    ORDER BY
+    <if test="column != null and column != ''">
+        NC.${column}
+      <if test="orderDir != null and orderDir != ''">
+        ${orderDir}
+      </if>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="long">
+    DELETE FROM
+    `novelchapter`
+    WHERE id=#{id}
+  </delete>
+
+  <insert id="insert" parameterType="NovelChapter" >
+    INSERT INTO
+    `novelchapter`(wid,title,location,novel)
+    VALUES(#{wid},#{title},#{location},#{novel.id})
+  </insert>
+
+  <insert id="insertByBatch" parameterType="java.util.List">
+    INSERT INTO
+    `novelchapter`(wid,title,location,novel)
+    VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.wid}, #{item.title}, #{item.location}, #{item.novel.id})
+    </foreach>
+  </insert>
+
+  <delete id="deleteByBatch" parameterType="java.util.List">
+    DELETE FROM
+    `novelchapter`
+    WHERE id IN
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+
+  <update id="updateByPrimaryKey" parameterType="Album" >
+    UPDATE
+    `novelchapter`
+    SET wid=#{wid},title=${title},location=#{location},novel=#{novel.id}
+    WHERE id=#{id}
+  </update>
+</mapper>

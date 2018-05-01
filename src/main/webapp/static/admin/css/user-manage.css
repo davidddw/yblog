@@ -1,0 +1,498 @@
+/* 单元格连续纯字母数字强制换行显示 */
+.wordwrap {
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+}
+
+/* 超长文字单元格省略号显示 */
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+
+#breadcrumb {
+    margin: 10px 0 0 0;
+}
+
+.breadcrumb {
+    margin: 0 0 0px;
+    padding: 10px 0px;
+    background-color: transparent;
+}
+
+.block {
+    border: 1px solid #ccc;
+    background: white;
+    margin: 10px 0 0 0;
+    border-top: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.block-content {
+    padding: 5px;
+    min-height: .25em;
+}
+
+.block-header {
+    margin-bottom: 0;
+    border-right: none;
+    border-left: none;
+    border-bottom: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.block-header div {
+    padding-top: 10px;
+}
+
+.block-header .block-title {
+    padding-top: 10px;
+    color: #999;
+    float: left;
+}
+
+.block-header .header-buttons {
+    padding-top: 0;
+    float: right;
+}
+
+/* spin遮罩层 */
+.overlay {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 1;
+    background: white;
+    filter: alpha(opacity=60);
+    opacity: .6;
+}
+
+/* block中的表格取消下边距 */
+.block-content table {
+    margin-bottom: 0;
+}
+
+.table_page_length{
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.table_page_length select{
+    width: 60px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.table_page_length label {
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.table_filter {
+    width: 100%;
+    float: right;
+}
+
+.table_filter label {
+    font-weight: normal;
+    white-space: nowrap;
+    text-align: left;
+}
+
+div.table_filter input {
+    margin-left: 0.5em;
+    display: inline-block;
+    width: auto;
+}
+
+/*红色星号*/
+.red-asterisk {
+    color: red;
+}
+
+/* form边距调整 */
+form {
+    margin: 0 5px 0 0;
+}
+
+/* fixed的表格才可以使单元格显示省略号*/
+.dataTable {
+    table-layout: fixed;
+}
+
+/* 表格复选框单元格居中显示 */
+.table .td-checkbox {
+    text-align: center;
+    padding-top: 10px;
+    padding-right: 5px !important;
+}
+
+.table .td-checkbox input {
+    margin: 0;
+}
+
+/* 表格操作栏按钮居中 */
+.table .td-operation {
+    text-align: center;
+}
+
+/* 表格操作栏按钮间隔 */
+.table .td-operation .btn + .btn {
+    margin-bottom: 0;
+    margin-left: 5px;
+}
+
+/* 表单信息栏系列样式定义 */
+.info-content .prop-name {
+    float: left;
+    padding: 5px 0 0 0;
+    width: 80px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.info-content .prop-value {
+    padding-top: 5px;
+    margin-left: 90px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+.info-content .control-group {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    margin-bottom: 15px;
+}
+
+.info-content .control-group .control-label {
+    float: left;
+    padding: 5px 0 0 0;
+    width: 80px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.info-content .control-group .controls {
+    margin-left: 90px;
+}
+
+.info-content .control-group .controls input, .info-content .control-group .controls textarea {
+    width: 200px;
+    height: 32px;
+}
+
+.info-content .control-group .controls select {
+    width: 200px;
+}
+
+.info-content .control-group .controls input.xlarge {
+    width: 450px;
+    *width: 476px;
+}
+
+.info-content .control-group .controls select.xlarge {
+    width: 450px;
+    *width: 476px;
+}
+
+.info-content .control-group .controls input.xxlarge {
+    width: 774px;
+    *width: 766px;
+}
+
+.info-content .control-group .controls input.xxxlarge {
+    width: 1068px;
+    *width: 1056px;
+}
+
+.info-content .control-group .controls .jq-dropdown-panel {
+    width: 178px;
+    overflow: auto;
+    max-height: 300px;
+}
+
+#toggle-advanced-search {
+    padding: 4px 8px;
+}
+
+#div-advanced-search .well {
+    margin-bottom: 10px;
+}
+
+#div-table-container {
+    position: relative;
+}
+
+.info-block {
+    margin: 0 0 10px 0;
+}
+
+.taglist {
+    height: 200px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+span.size1 {
+    padding: 10px;
+    font-size: 32px;
+    color: #804D40;
+}
+
+span.size1:hover {
+    color: #E13728;
+}
+
+span.size2 {
+    padding: 7px;
+    font-size: 30px;
+    color: #B9251A;
+}
+
+span.size2:hover {
+    color: #E13728;
+}
+
+span.size3 {
+    padding: 5px;
+    font-size: 28px;
+    color: #C4876A;
+}
+
+span.size3:hover {
+    color: #E13728;
+}
+
+span.size4 {
+    padding: 5px;
+    font-size: 24px;
+    color: #B46A47;
+}
+
+span.size4:hover {
+    color: #E13728;
+}
+
+span.size5 {
+    padding: 5px;
+    font-size: 22px;
+    color: #E13728;
+}
+
+span.size5:hover {
+    color: #B46A47;
+}
+
+span.size6 {
+    padding: 0;
+    font-size: 20px;
+    color: #77625E
+}
+
+span.size6:hover {
+    color: #E13728;
+}
+
+#user > tbody > tr > td {
+    height: 45px;
+    padding: 4px 8px;
+}
+
+.datatable-toolbar {
+    margin-bottom: 10px;
+}
+
+/*--login--*/
+body.login{ background:url(../images/login_bgx.gif);}
+.login_m{ width:403px; margin:0 auto; height:375px; margin-top:98px; /*position: absolute;left:50%;top:50%;margin-left:-202px;margin-top:-188px;*/}
+.login_logo{ text-align:center; margin-bottom:25px;}
+.login_boder{ background: url(../images/login_m_bg.png) no-repeat; height:302px; overflow:hidden;}
+.login_padding{ padding:28px 47px 20px 47px;}
+.login_boder h2{ color:#4f5d80; text-transform:uppercase; font-size:12px; font-weight:normal; margin-bottom:11px;}
+.forget_model_h2{color:#4f5d80; font-size:12px; font-weight:normal; margin-bottom:11px;}
+
+.login_boder input.txt_input{ width:295px; height:36px; border:1px solid #cad2db; padding:0 5px; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; line-height:36px; font-size:14px; color:#717171; font-family:Arial;}
+.login_boder input.txt_input2{ margin-bottom:0;}
+.login_boder input.txt_input:focus{ transition:border linear .2s,box-shadow linear .2s; -moz-transition:border linear .2s,-moz-box-shadow linear .2s; -webkit-transition:border linear .2s,-webkit-box-shadow linear .2s; outline:none;border-color:rgba(173,173,173.75); box-shadow:0 0 8px rgba(173,173,173,.5); -moz-box-shadow:0 0 8px rgba(173,173,173,.5); -webkit-box-shadow:0 0 8px rgba(173,173,173,3); border:1px solid #6192c8;}
+.login_boder p.forgot{ font-size:11px;  text-align:right; margin-bottom:15px;}
+.login_boder p.forgot a,.login_boder p.forgot a:visited{color:#8c8e91;}
+.login_boder p.forgot a:hover{color:#206fd5;}
+.rem_sub input.sub_button{ float:right; width:122px; height:32px; background:url(../images/site_bg.png) no-repeat -153px -850px; border:none; color:#FFF; padding-bottom:2px; font-size:14px; font-weight:bold;}
+.rem_sub .rem_sub_l{ float:left; font-size:12px; height:33px; line-height:33px;}
+.rem_sub input#checkbox{ margin-right:5px; vertical-align:middle;}
+
+.validate {
+    margin-top: 10px
+}
+.invalid-form-error-message {
+    margin-top: 10px;
+    padding: 5px
+}
+.invalid-form-error-message.filled {
+    border-left: 2px solid #E74C3C
+}
+p.parsley-success {
+    color: #468847;
+    background-color: #DFF0D8;
+    border: 1px solid #D6E9C6
+}
+p.parsley-error {
+    color: #B94A48;
+    background-color: #F2DEDE;
+    border: 1px solid #EED3D7
+}
+ul.parsley-errors-list {
+    list-style: none;
+    color: #E74C3C;
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.471;
+}
+div.inputbox {
+    height: 75px;
+    margin: 15px 0;
+}
+
+
+input.parsley-error,
+textarea.parsley-error,
+select.parsley-error {
+    background: #FAEDEC;
+    border: 1px solid #E85445
+}
+.btn-group .parsley-errors-list {
+    display: none
+}
+
+.avatar-view {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,.15);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.avatar-view img {
+    width: 100%;
+    height: 100%;
+}
+
+.avatar-body {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.avatar-upload {
+    overflow: hidden;
+}
+
+.avatar-upload label {
+    display: block;
+    float: left;
+    clear: left;
+    width: 100px;
+}
+
+.avatar-upload input {
+    display: block;
+    margin-left: 110px;
+}
+
+.avatar-alert {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.avatar-wrapper {
+    height: 364px;
+    width: 100%;
+    margin-top: 15px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,.25);
+    background-color: #fcfcfc;
+    overflow: hidden;
+}
+
+.avatar-wrapper img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
+
+.avatar-preview {
+    float: left;
+    margin-top: 15px;
+    margin-right: 15px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.avatar-preview:hover {
+    border-color: #ccf;
+    box-shadow: 0 0 5px rgba(0,0,0,.15);
+}
+
+.avatar-preview img {
+    width: 100%;
+}
+
+.modal-body
+{
+    height:550px;
+    overflow:auto;
+}
+
+@media (min-width: 992px) {
+    .avatar-preview {
+        float: none;
+    }
+}
+
+.avatar-btns {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.avatar-btns .btn-group {
+    margin-right: 5px;
+}
+
+.loading {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #fff url("../images/loading.gif") no-repeat center center;
+    opacity: .75;
+    filter: alpha(opacity=75);
+    z-index: 20140628;
+}
+
+.control-label {
+    padding-top: 8px;
+}
