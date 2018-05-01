@@ -24,6 +24,8 @@
 
 package org.cloud.yblog.controller.backend;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.cloud.yblog.constant.UrlConstants;
 import org.cloud.yblog.controller.base.AdminBaseController;
 import org.cloud.yblog.controller.exception.ResourceNotFoundException;
@@ -32,11 +34,8 @@ import org.cloud.yblog.service.IArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by d05660ddw on 2017/3/25.

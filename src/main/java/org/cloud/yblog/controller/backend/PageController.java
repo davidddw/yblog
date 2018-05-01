@@ -24,18 +24,25 @@
 
 package org.cloud.yblog.controller.backend;
 
-import org.cloud.yblog.constant.UrlConstants;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.cloud.yblog.controller.base.AdminBaseController;
 import org.cloud.yblog.controller.exception.ResourceNotFoundException;
 import org.cloud.yblog.model.Page;
 import org.cloud.yblog.model.ResponseMessage;
 import org.cloud.yblog.service.IPageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *

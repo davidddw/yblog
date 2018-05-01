@@ -24,27 +24,24 @@
 
 package org.cloud.yblog.controller.api;
 
-import com.github.pagehelper.PageInfo;
-import org.cloud.yblog.constant.UrlConstants;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.cloud.yblog.controller.base.APIBaseController;
-import org.cloud.yblog.controller.exception.APIException;
 import org.cloud.yblog.controller.exception.APINotFoundException;
-import org.cloud.yblog.controller.exception.ResourceNotFoundException;
 import org.cloud.yblog.model.NovelChapter;
 import org.cloud.yblog.model.NovelInfo;
-import org.cloud.yblog.model.ResponseMessage;
 import org.cloud.yblog.service.INovelChapterService;
 import org.cloud.yblog.service.INovelInfoService;
 import org.cloud.yblog.utils.PropertiesUtil;
 import org.cloud.yblog.utils.StringHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by d05660ddw on 2017/6/4.

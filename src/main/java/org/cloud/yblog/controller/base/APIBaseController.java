@@ -24,18 +24,14 @@
 
 package org.cloud.yblog.controller.base;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.cloud.yblog.constant.UrlConstants;
-import org.cloud.yblog.model.NovelInfo;
 import org.cloud.yblog.service.INovelInfoService;
 import org.cloud.yblog.service.ISecurityService;
-import org.cloud.yblog.utils.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * Created by d05660ddw on 2017/4/8.

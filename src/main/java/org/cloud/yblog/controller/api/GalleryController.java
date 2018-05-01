@@ -24,21 +24,20 @@
 
 package org.cloud.yblog.controller.api;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.cloud.yblog.controller.base.APIBaseController;
 import org.cloud.yblog.dto.GalleryData;
 import org.cloud.yblog.model.Gallery;
-import org.cloud.yblog.service.IAlbumService;
 import org.cloud.yblog.service.IGalleryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by d05660ddw on 2017/6/4.
@@ -47,9 +46,6 @@ import java.util.Map;
 
 @RestController
 public class GalleryController extends APIBaseController {
-
-    @Autowired
-    private IAlbumService albumService;
 
     @Autowired
     private IGalleryService galleryService;

@@ -24,28 +24,11 @@
 
 package org.cloud.yblog.service.impl;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.*;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
-import org.apache.lucene.search.*;
-import org.apache.lucene.search.highlight.*;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-import org.cloud.yblog.dto.SearchResult;
-import org.cloud.yblog.service.ISearchService;
-import org.lionsoul.jcseg.analyzer.JcsegAnalyzer;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.cloud.yblog.constant.LuceneFieldConstant.CONTENT;
+import static org.cloud.yblog.constant.LuceneFieldConstant.ID;
+import static org.cloud.yblog.constant.LuceneFieldConstant.STOREDID;
+import static org.cloud.yblog.constant.LuceneFieldConstant.TITLE;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Paths;
@@ -54,7 +37,39 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.cloud.yblog.constant.LuceneFieldConstant.*;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.IntPoint;
+import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.TopFieldDocs;
+import org.apache.lucene.search.highlight.Fragmenter;
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
+import org.apache.lucene.search.highlight.SimpleSpanFragmenter;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.cloud.yblog.dto.SearchResult;
+import org.cloud.yblog.service.ISearchService;
+import org.lionsoul.jcseg.analyzer.JcsegAnalyzer;
+import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by d05660ddw on 2017/3/19.

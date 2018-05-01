@@ -82,8 +82,6 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         configuration.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
         // Makre sure everything is UTF-8 from the beginning to avoid headaches
         configuration.setDefaultEncoding("UTF-8");
-        configuration.setOutputEncoding("UTF-8");
-        configuration.setURLEscapingCharset("UTF-8");
         configuration.setLocale(Locale.CHINA);
         // Apply the configuration settings to the configurer
         configurer.setConfiguration(configuration);

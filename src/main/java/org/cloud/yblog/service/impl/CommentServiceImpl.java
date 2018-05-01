@@ -43,7 +43,7 @@ import java.util.List;
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements ICommentService {
 
-    @Autowired
+	@Autowired
     private CommentMapper commentMapper;
 
     @Override

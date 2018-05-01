@@ -24,33 +24,45 @@
 
 package org.cloud.yblog.controller.front;
 
-import com.github.pagehelper.PageInfo;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.cloud.yblog.constant.CookieConstants;
 import org.cloud.yblog.constant.UrlConstants;
 import org.cloud.yblog.controller.base.FrontBaseController;
 import org.cloud.yblog.controller.exception.ResourceNotFoundException;
-import org.cloud.yblog.model.*;
-import org.cloud.yblog.service.*;
+import org.cloud.yblog.model.Album;
+import org.cloud.yblog.model.Article;
+import org.cloud.yblog.model.Category;
+import org.cloud.yblog.model.Gallery;
+import org.cloud.yblog.model.NovelChapter;
+import org.cloud.yblog.model.NovelInfo;
+import org.cloud.yblog.model.Tag;
+import org.cloud.yblog.service.IAlbumService;
+import org.cloud.yblog.service.IArticleService;
+import org.cloud.yblog.service.ICategoryService;
+import org.cloud.yblog.service.IGalleryService;
+import org.cloud.yblog.service.INovelChapterService;
+import org.cloud.yblog.service.INovelInfoService;
+import org.cloud.yblog.service.IPageService;
+import org.cloud.yblog.service.ITagService;
 import org.cloud.yblog.utils.CookieUtil;
-import org.cloud.yblog.utils.PropertiesUtil;
-import org.cloud.yblog.utils.QRCodeUtil;
-import org.cloud.yblog.utils.StringHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.github.pagehelper.PageInfo;
 
 /**
  * Created by d05660ddw on 2017/3/20.
