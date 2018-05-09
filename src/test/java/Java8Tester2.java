@@ -26,9 +26,13 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import org.cloud.yblog.utils.IdWorker;
 
 enum Type {
     MEAT, FISH, OTHER
@@ -112,8 +116,26 @@ public class Java8Tester2 {
         String concat = Stream.of(text).reduce(String::concat).orElse("");
         System.out.println(concat);
     }
+    
+    private static void test2() {
+    	Pattern pp = Pattern.compile("(第[0-9]+章)[\\s]*([\\S\\u4e00-\\u9fa5]+)");
+    	Pattern pp2 = Pattern.compile("[^\\r\\n]+[\\r\\n]+(\\S*)");
+    	String sb= "第1章 \r\n阿斯顿发，阿斯顿发阿斯顿发教科文而我却二全额外人。\r\n第2章 阿萨德\r\n阿斯顿发，阿斯顿发。";
+    	Matcher m = pp.matcher(sb);
+    	while (m.find()) {
+            String title = m.group(0);
+            Matcher m2 = pp2.matcher(title);
+            if (m2.find()) {
+            	title = m.group(1) + " 匿名";
+            } else {
+            	title = m.group(1) + " " + m.group(2);
+            }
+            System.out.println(title);
+    	}
+    	
+    }
 
     public static void main(String[] args) {
-        test1();
+    	test2();
     }
 }

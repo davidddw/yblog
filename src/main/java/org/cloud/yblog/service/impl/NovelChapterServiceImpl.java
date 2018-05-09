@@ -131,7 +131,7 @@ public class NovelChapterServiceImpl extends ServiceImpl<NovelChapterMapper, Nov
                 }
                 // 存放数据库中的路径
                 String location = String.format("%s/%s.txt", relativePath, wid);
-                int titleLength = title.length();
+                int titleLength = m.group(0).length();
                 // txt的完整路径
                 File targetFile = new File(uploadPath + "/" + location);
                 //logger.info("Novel file location: " + targetFile);

@@ -2326,7 +2326,7 @@ function initNovelChapter() {
     }).on("click", ".btn-preview", function () {
         //点击预览按钮
         var item = _table.row($(this).closest('tr')).data();
-        window.location.href = "/web//novel/" + item.novel.id + "/" + item.wid + ".html";
+        window.location.href = "/web/novel/" + item.novel.id + "/" + item.wid + ".html";
     }).on("click", ".btn-del", function () {
         //点击删除按钮
         var item = _table.row($(this).closest('tr')).data();
