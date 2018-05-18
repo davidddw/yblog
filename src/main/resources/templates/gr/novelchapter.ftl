@@ -3,7 +3,7 @@
 <head>
     <title>小说</title>
 <#include "defaulthead.ftl">
-    <link rel='stylesheet' id='pc-css' href='https://cdn.bootcss.com/paginationjs/2.0.8/pagination.css' type='text/css' media='all'/>
+    <link rel='stylesheet' id='pc-css' href='${basePath}/static/vender/paginationjs/2.0.8/pagination.css' type='text/css' media='all'/>
 </head>
 <body>
 <#include "header.ftl">
@@ -35,8 +35,8 @@
     <!--Container-->
 </div>
 <#include "defaultjs.ftl">
-<script src='https://cdn.bootcss.com/jquery.imagesloaded/3.0.4/jquery.imagesloaded.min.js'></script>
-<script src='https://cdn.bootcss.com/jquery.wookmark/1.3.1/jquery.wookmark.min.js'></script>
+<script src='${basePath}/static/vender/jquery.imagesloaded/3.0.4/jquery.imagesloaded.min.js'></script>
+<script src='${basePath}/static/vender/jquery.wookmark/1.3.1/jquery.wookmark.min.js'></script>
 <!--main-->
 <#include "footer.ftl">
 <!--dibu-->

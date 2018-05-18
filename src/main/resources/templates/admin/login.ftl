@@ -48,8 +48,8 @@
     </div><!--login_boder end-->
 </div><!--login_m end-->
 <!-- JQuery -->
-<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/parsley.js/2.7.0/parsley.min.js"></script>
+<script src="${basePath}/static/vender/jquery/1.12.4/jquery.min.js"></script>
+<script src="${basePath}/static/vender/parsley.js/2.7.0/parsley.min.js"></script>
 <script src="${basePath}/static/admin/js/login.js"></script>
 </body>
 </html>

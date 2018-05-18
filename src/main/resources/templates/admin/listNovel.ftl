@@ -10,13 +10,13 @@
     <title>后台管理页面</title>
     <link rel="shortcut icon" href="${basePath}/static/favicon.ico"/>
     <!-- CDN start -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" media="screen">
-    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.bootcss.com/datatables/1.10.13/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.bootcss.com/toastr.js/2.1.3/toastr.min.css">
-    <link rel="stylesheet" href="https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css">
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-fileinput/4.3.9/css/fileinput.min.css">
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-fileinput/4.3.9/themes/explorer/theme.min.css">
+    <link rel="stylesheet" href="${basePath}/static/vender/bootstrap/3.3.7/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="${basePath}/static/vender/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${basePath}/static/vender/datatables/1.10.13/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="${basePath}/static/vender/toastr.js/2.1.3/toastr.min.css">
+    <link rel="stylesheet" href="${basePath}/static/vender/nprogress/0.2.0/nprogress.min.css">
+    <link rel="stylesheet" href="${basePath}/static/vender/bootstrap-fileinput/4.3.9/css/fileinput.min.css">
+    <link rel="stylesheet" href="${basePath}/static/vender/bootstrap-fileinput/4.3.9/themes/explorer/theme.min.css">
     <!-- CDN end-->
     <!-- Custom Theme Style -->
     <link rel="stylesheet" href="${basePath}/static/admin/css/custom.css">
@@ -182,17 +182,17 @@
     </div>
 </div>
 <!-- CDN start -->
-<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdn.bootcss.com/spin.js/2.3.2/spin.min.js"></script>
-<script src="https://cdn.bootcss.com/parsley.js/2.7.0/parsley.min.js"></script>
-<script src="https://cdn.bootcss.com/datatables/1.10.13/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.bootcss.com/datatables/1.10.13/js/dataTables.bootstrap.min.js"></script>
-<script src="https://cdn.bootcss.com/toastr.js/2.1.3/toastr.min.js"></script>
-<script src="https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap-fileinput/4.3.9/js/fileinput.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap-fileinput/4.3.9/js/locales/zh.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap-fileinput/4.3.9/themes/explorer/theme.min.js"></script>
+<script src="${basePath}/static/vender/jquery/1.12.4/jquery.min.js"></script>
+<script src="${basePath}/static/vender/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="${basePath}/static/vender/spin.js/2.3.2/spin.min.js"></script>
+<script src="${basePath}/static/vender/parsley.js/2.7.0/parsley.min.js"></script>
+<script src="${basePath}/static/vender/datatables/1.10.13/js/jquery.dataTables.min.js"></script>
+<script src="${basePath}/static/vender/datatables/1.10.13/js/dataTables.bootstrap.min.js"></script>
+<script src="${basePath}/static/vender/toastr.js/2.1.3/toastr.min.js"></script>
+<script src="${basePath}/static/vender/nprogress/0.2.0/nprogress.min.js"></script>
+<script src="${basePath}/static/vender/bootstrap-fileinput/4.3.9/js/fileinput.min.js"></script>
+<script src="${basePath}/static/vender/bootstrap-fileinput/4.3.9/js/locales/zh.min.js"></script>
+<script src="${basePath}/static/vender/bootstrap-fileinput/4.3.9/themes/explorer/theme.min.js"></script>
 <!-- lhgdialog -->
 <script src="${basePath}/static/admin/js/lhgdialog/lhgdialog.js"></script>
 <!-- Custom Theme Scripts -->

@@ -3,8 +3,8 @@
 <head>
     <title>相册</title>
     <#include "defaulthead.ftl">
-    <link rel='stylesheet' href="https://cdn.bootcss.com/lightgallery/1.3.9/css/lightgallery.min.css" media='screen'/>
-    <link rel='stylesheet' href='https://cdn.bootcss.com/justifiedGallery/3.6.3/css/justifiedGallery.min.css' type='text/css' media='all'/>
+    <link rel='stylesheet' href="${basePath}/static/vender/lightgallery/1.3.9/css/lightgallery.min.css" media='screen'/>
+    <link rel='stylesheet' href='${basePath}/static/vender/justifiedGallery/3.6.3/css/justifiedGallery.min.css' type='text/css' media='all'/>
 </head>
 <body>
 <#include "header.ftl">
@@ -41,10 +41,10 @@
     <!--Container-->
 </div>
 <#include "defaultjs.ftl">
-<script src='https://cdn.bootcss.com/justifiedGallery/3.6.3/js/jquery.justifiedGallery.min.js'></script>
-<script src='https://cdn.bootcss.com/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js'></script>
-<script src='https://cdn.bootcss.com/lightgallery/1.3.9/js/lightgallery.min.js'></script>
-<script src='https://cdn.bootcss.com/lightgallery/1.2.21/js/lg-thumbnail.min.js'></script>
+<script src='${basePath}/static/vender/justifiedGallery/3.6.3/js/jquery.justifiedGallery.min.js'></script>
+<script src='${basePath}/static/vender/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js'></script>
+<script src='${basePath}/static/vender/lightgallery/1.3.9/js/lightgallery.min.js'></script>
+<script src='${basePath}/static/vender/lightgallery/1.2.21/js/lg-thumbnail.min.js'></script>
 <!--main-->
 <#include "footer.ftl">
 <!--dibu-->

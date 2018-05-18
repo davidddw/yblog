@@ -18,4 +18,4 @@
     <#if isHomePage><link rel='stylesheet' id='home-css' href='${basePath}/static/gr/home.css' type='text/css' media='all'/></#if>
     <link rel='stylesheet' id='pc-css' href='${basePath}/static/gr/pc.css' type='text/css' media='all'/>
     <link rel='stylesheet' id='phone-css' href='${basePath}/static/gr/phone.css' type='text/css' media='all'/>
-    <link rel='stylesheet' href='https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css' type='text/css'/>
+    <link rel='stylesheet' href='${basePath}/static/vender/nprogress/0.2.0/nprogress.min.css' type='text/css'/>
