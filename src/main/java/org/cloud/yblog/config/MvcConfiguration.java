@@ -24,8 +24,14 @@
 
 package org.cloud.yblog.config;
 
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.cloud.yblog.utils.DateFormatTag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,15 +42,11 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateExceptionHandler;
 
 /**
  * Created by d05660ddw on 2017/4/8.
@@ -53,7 +55,7 @@ import java.util.Map;
 @EnableWebMvc
 @Configuration
 @ComponentScan(useDefaultFilters = false, basePackages = {"org.cloud.yblog"})
-public class MvcConfiguration extends WebMvcConfigurerAdapter {
+public class MvcConfiguration implements WebMvcConfigurer {
     final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Bean

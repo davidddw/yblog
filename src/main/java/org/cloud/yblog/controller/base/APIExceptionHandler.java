@@ -24,20 +24,22 @@
 
 package org.cloud.yblog.controller.base;
 
+import java.util.Map;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.cloud.yblog.controller.exception.APIException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.AbstractErrorController;
-import org.springframework.boot.autoconfigure.web.ErrorAttributes;
+import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
-import java.util.Optional;
+import org.springframework.web.context.request.WebRequest;
 
 @RestController
 public class APIExceptionHandler extends AbstractErrorController {
@@ -72,12 +74,13 @@ public class APIExceptionHandler extends AbstractErrorController {
     }
 
     private Optional<APIException> getApiException(HttpServletRequest request) {
-        RequestAttributes attributes = new ServletRequestAttributes(request);
-        Throwable throwable = errorAttributes.getError(attributes);
-        if (throwable instanceof APIException) {
-            APIException exception = (APIException) throwable;
-            return Optional.of(exception);
-        }
+//        RequestAttributes attributes = new ServletRequestAttributes(request);
+//        WebRequest webRequest = 
+//        Throwable throwable = errorAttributes.getError(attributes);
+//        if (throwable instanceof APIException) {
+//            APIException exception = (APIException) throwable;
+//            return Optional.of(exception);
+//        }
 
         return Optional.empty();
     }

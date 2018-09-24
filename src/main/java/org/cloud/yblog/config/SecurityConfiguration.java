@@ -24,7 +24,19 @@
 
 package org.cloud.yblog.config;
 
-import org.cloud.yblog.security.*;
+import static org.cloud.yblog.constant.UrlConstants.ADMIN;
+import static org.cloud.yblog.constant.UrlConstants.OAUTHAPI;
+import static org.cloud.yblog.constant.UrlConstants.WEB;
+
+import java.util.regex.Pattern;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
+
+import org.cloud.yblog.security.AccountAuthenticationProvider;
+import org.cloud.yblog.security.CustomAuthenticationFilter;
+import org.cloud.yblog.security.Http401UnauthorizedEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -50,7 +62,11 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.web.authentication.*;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -60,13 +76,6 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.accept.ContentNegotiationStrategy;
 import org.springframework.web.accept.HeaderContentNegotiationStrategy;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
-import java.util.regex.Pattern;
-
-import static org.cloud.yblog.constant.UrlConstants.*;
 
 /**
  * Created by d05660ddw on 2017/7/14.
@@ -79,7 +88,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String RESOURCE_ID = "restservice";
     private static final String CLIENTID = "clientapp";
     private static final String SECRET = "123456";
-    private static final String REMEMBERME = "rememberme";
+    //private static final String REMEMBERME = "rememberme";
 
     @Autowired
     UserDetailsService userDetailsService;

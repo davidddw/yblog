@@ -24,54 +24,53 @@
 
 package org.cloud.yblog;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.web.servlet.ErrorPage;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * Created by d05660ddw on 2017/3/6.
  */
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 @Controller
 public class Application {
 
-    private final static Logger logger = LoggerFactory.getLogger("o.c.y.Main");
+	private final static Logger logger = LoggerFactory.getLogger("o.c.y.Main");
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-        logger.info("============= SpringBoot Start Success =============");
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+		logger.info("============= SpringBoot Start Success =============");
+	}
 
-    /**
-     * 添加tomcat的静态页面用来处理401，404，500
-     * @return
-     */
-    @Bean
-    public EmbeddedServletContainerCustomizer containerCustomizer() {
+	@Bean
+	public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> webServerFactoryCustomizer() {
+		return new WebServerFactoryCustomizer<ConfigurableServletWebServerFactory>() {
 
-        return (container -> {
-            ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/static/401.html");
-            ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/static/404.html");
-            ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/static/500.html");
+			@Override
+			public void customize(ConfigurableServletWebServerFactory factory) {
+				ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/static/401.html");
+				ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/static/404.html");
+				ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/static/500.html");
+				factory.addErrorPages(error401Page, error404Page, error500Page);
+			}
 
-            container.addErrorPages(error401Page, error404Page, error500Page);
-            container.setSessionTimeout(1800);//单位为S
-        });
-    }
+		};
+	}
 
-    @RequestMapping(value = "/")
-    public String firstPage(HttpServletRequest request, HttpServletResponse response){
-        return "redirect:/web/";
-    }
+	@RequestMapping(value = "/")
+	public String firstPage(HttpServletRequest request, HttpServletResponse response) {
+		return "redirect:/web/";
+	}
 }
